@@ -1,0 +1,5 @@
+env
+.env
+myapp/migrations/*.py
+myapp/migrations/**.py
+db.sqlite3

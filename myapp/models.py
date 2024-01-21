@@ -29,7 +29,7 @@ class StoreModel(models.Model):
 
 class UsersUpload(models.Model):
   email = models.CharField(null=True, blank=True, max_length=100)
-  image1 = models.FileField(verbose_name="user_uploads",null=True,  blank=True, upload_to=get_media_path)
+  image = models.FileField(null=True,  blank=True, upload_to=get_media_path)
   medication = models.ForeignKey(StoreModel, null=True,  blank=True, on_delete= models.CASCADE)
   
   

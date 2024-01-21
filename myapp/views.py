@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import StoreModelSerializer, UsersUploadModelSerializer
 from .models import StoreModel, UsersUpload
+import requests
+import base64
 
 
 
@@ -64,7 +66,8 @@ class UsersUploadAPIVIEW(APIView):
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
           serializer.save()
-          return Response(data=serializer.data, status=status.HTTP_200_OK)
+          processed = processImage(serializer.data['image'])
+          return Response(data={"data":serializer.data, "processed_data": processed}, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
     except Exception as e:
       return Response(data={"error":e}, status=status.HTTP_400_BAD_REQUEST)
@@ -72,7 +75,6 @@ class UsersUploadAPIVIEW(APIView):
    #Get all the uploads by a user 
   def get(self,request, email):
     try:
-       print(email)
        all = UsersUpload.objects.filter(email=email)
        serializer= self.serializer_class(instance=all, many=True)
        return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -81,4 +83,42 @@ class UsersUploadAPIVIEW(APIView):
           
 
 usersUploadAPI = UsersUploadAPIVIEW.as_view()
+
+
+
+import requests
+import base64
+from requests.exceptions import RequestException
+
+ip = "34.201.114.120"
+
+def processImage(image_path):
+    base64_image = ""
+    print("called")
+
+    try:
+        with open(f".{image_path}", "rb") as image_file:
+            base64_image = base64.b64encode(image_file.read()).decode('utf-8')
+    except FileNotFoundError as e:
+        print(f"File not found: {image_path}")
+        return
+
+    try:
+        print("Sending request")
+        response = requests.post(
+            f'http://{ip}:8001/process',
+            json={
+                "image": base64_image,
+                "prompt": "Just give me the text on the image, nothing else. Give me your best guess if you cannot read fully."
+            }
+        )
+        response.raise_for_status()  # Raises an HTTPError for bad responses
+        message = response.json()["message"]
+        print(message)
+        return message
+    except RequestException as e:
+        print(f"Error in request: {e}")
+
+
+
     

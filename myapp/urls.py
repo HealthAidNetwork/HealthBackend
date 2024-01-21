@@ -4,6 +4,5 @@ from .views import storeAPI, usersUploadAPI
 
 urlpatterns = [
     path('store',  storeAPI),
-    path('uploads',  usersUploadAPI),
-    path('getuploads/<str:email>',  usersUploadAPI)
+    path('uploads/<str:email>',  usersUploadAPI),
 ]

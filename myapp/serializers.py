@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StoreModel, UsersUpload
+from .models import StoreModel, UsersUpload, DeliveryRequest
 
 class StoreModelSerializer(serializers.ModelSerializer):
   class Meta:
@@ -10,4 +10,9 @@ class StoreModelSerializer(serializers.ModelSerializer):
 class UsersUploadModelSerializer(serializers.ModelSerializer):
   class Meta:
     model = UsersUpload
+    fields = "__all__"
+    
+class DeliveryRequestModelSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = DeliveryRequest
     fields = "__all__"

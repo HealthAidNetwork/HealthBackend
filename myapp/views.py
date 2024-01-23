@@ -2,7 +2,7 @@ from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import StoreModelSerializer, UsersUploadModelSerializer
+from .serializers import StoreModelSerializer, UsersUploadModelSerializer, DeliveryRequestModelSerializer
 from .models import StoreModel, UsersUpload
 import requests
 import base64
@@ -63,6 +63,7 @@ class UsersUploadAPIVIEW(APIView):
   def post(self,request, email):
     try:
         data = request.data
+  
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
           serializer.save()
@@ -83,6 +84,34 @@ class UsersUploadAPIVIEW(APIView):
           
 
 usersUploadAPI = UsersUploadAPIVIEW.as_view()
+
+
+class DeliveryRequestAPIVIEW(APIView):
+  serializer_class = DeliveryRequestModelSerializer
+  parser_classes = (MultiPartParser, FormParser, JSONParser)
+  #Allows a users to queue delivery
+  def post(self,request):
+    data = request.data
+    try:
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+           
+          serializer.save()
+          return Response(data={"data":serializer.data}, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+    except Exception as e:
+      print(e)
+      return Response(data={"error":e}, status=status.HTTP_400_BAD_REQUEST)
+    
+delivery = DeliveryRequestAPIVIEW.as_view()
+
+
+
+
+
+
+
+
 
 
 

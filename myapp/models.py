@@ -37,10 +37,12 @@ class UsersUpload(models.Model):
   def __str__(self):
     return f"{self.email}"
   
-class UserRequest(models.Model):
+class DeliveryRequest(models.Model):
   email = models.CharField(null=True, blank=True, max_length=100)
-  delivery_date = models.DateField(null=True, blank=True, max_length=100)
-  medication_details = models.CharField(null=True, blank=True, max_length=1000)
+  address = models.CharField(null=True, blank=True, max_length=100)
+  data = models.TextField(null=True, blank=True)
+  country = models.CharField(null=True, blank=True, max_length=100)
+  phonenumber = models.CharField(null=True, blank=True, max_length=100)
   
   
   def __str__(self):

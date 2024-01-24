@@ -96,6 +96,7 @@ if os.getenv('DB') == 0:
     }
 else:
     print('Using live db')
+    print(str(os.getenv("DB_USER")))
     DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

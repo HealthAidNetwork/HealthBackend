@@ -10,5 +10,5 @@ media/*.png
 
 
 .git
-static/**
 !*/static/*.txt
+/static/**

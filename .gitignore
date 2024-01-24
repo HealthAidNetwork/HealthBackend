@@ -3,7 +3,12 @@ env
 myapp/migrations/*.py
 myapp/migrations/**.py
 db.sqlite3
-media/**
+media/*.jpg
+media/*.jpeg
+media/*.png
+
+
+
 .git
 /static/**
 static/**

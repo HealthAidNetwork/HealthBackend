@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'eduhack.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 if os.getenv('DB') == 0:
-
+    print('Using lcoal db')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -94,7 +94,7 @@ if os.getenv('DB') == 0:
         }
     }
 else:
-    print('Using this db')
+    print('Using live db')
     DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

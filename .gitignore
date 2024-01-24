@@ -5,3 +5,4 @@ myapp/migrations/**.py
 db.sqlite3
 media/**
 .git
+/static/**

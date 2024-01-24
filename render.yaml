@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: eduhack
+    buildCommand: "./build.sh"
+    env: python
+    startCommand: "gunicorn eduhack.wsgi:application"

@@ -94,6 +94,7 @@ if os.getenv('DB') == 0:
         }
     }
 else:
+    print('Using this db')
     DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",

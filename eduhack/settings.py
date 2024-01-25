@@ -82,11 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'eduhack.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-if os.getenv('DB') == 0:
+if int(os.getenv('DB')) == 0:
     print('Using lcoal db')
     DATABASES = {
         'default': {

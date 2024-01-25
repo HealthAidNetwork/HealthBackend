@@ -19,7 +19,10 @@ class StoreAPIVIEW(APIView):
         data = request.data
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
-          serializer.save()
+          inst= serializer.save()
+          res = cloudinaryUpload(serializer.data['image'])
+          inst.image_url = res
+          inst.save()
           return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
     except Exception as e:
@@ -43,6 +46,8 @@ class StoreAPIVIEW(APIView):
         serializer = self.serializer_class(instance=obj, data=data)
         if serializer.is_valid():
           serializer.save()
+          # imagePath = processed = processImage(serializer.data['image'])
+          
           return Response(data=serializer.data, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
     except Exception as e:
@@ -123,14 +128,12 @@ ip = "34.201.114.120"
 
 def processImage(image_path):
     base64_image = ""
-    print("called")
-
     try:
         with open(f".{image_path}", "rb") as image_file:
             base64_image = base64.b64encode(image_file.read()).decode('utf-8')
     except FileNotFoundError as e:
         print(f"File not found: {image_path}")
-        return
+        return None
 
     try:
         print("Sending request")
@@ -150,4 +153,21 @@ def processImage(image_path):
 
 
 
-    
+
+
+import cloudinary
+import cloudinary.uploader
+cloudinary.config(
+  cloud_name = 'db0v83nmr', 
+  api_key = '438937393957913', 
+  api_secret = 'PvXKNxI-NXnn4JXp1jdKBDlaIZU'
+)
+def cloudinaryUpload(filePath):
+  try:
+      res = cloudinary.uploader.upload(f".{filePath}")
+      return res['url']
+  except Exception as e:
+    print(e, "Cloudinary Error")
+    return None
+  
+  

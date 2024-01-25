@@ -13,12 +13,14 @@ def get_media_path(instance, file):
 
 
 class StoreModel(models.Model):
+  email = models.CharField(null=True, blank=True, max_length=100)
   name = models.CharField(null=True, blank=True, max_length=100)
   expiration = models.DateField(null=True, blank=True, max_length=100)
   image = models.FileField(verbose_name="Image",null=True,  blank=True, upload_to="media")
   available = models.BooleanField(default=True, blank=True)
   quantity = models.PositiveIntegerField(default=0, blank=True)
-  
+  image_url= models.CharField(null=True, blank=True, max_length=255)
+  data= models.TextField(null=True, blank=True)
   
   def __str__(self):
     return f"{self.name}"

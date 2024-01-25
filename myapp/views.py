@@ -52,6 +52,15 @@ class StoreAPIVIEW(APIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
     except Exception as e:
       return Response(data={"error":e}, status=status.HTTP_400_BAD_REQUEST)
+  def delete(self, request):
+    try:
+        all = StoreModel.objects.all()
+        all.delete()
+        return Response(data={}, status=status.HTTP_200_OK)
+    except Exception as e:
+       return Response(data={}, status=status.HTTP_400_BAD_REQUEST)
+      
+  
     
     
 storeAPI = StoreAPIVIEW.as_view()
